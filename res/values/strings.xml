@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ChatHead</string>
+    <string name="toggle_button_text_on">Turn Off Chat Head</string>
+    <string name="toggle_button_text_off">Turn On Chat Head</string>
 </resources>
