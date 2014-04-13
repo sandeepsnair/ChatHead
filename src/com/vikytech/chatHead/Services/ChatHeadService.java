@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.view.Gravity;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import com.vikytech.chatHead.R;
@@ -39,6 +41,33 @@ public class ChatHeadService extends Service {
         params.y = 100;
 
         windowManager.addView(chatHead, params);
+
+        chatHead.setOnTouchListener(new View.OnTouchListener() {
+            private int initialX;
+            private int initialY;
+            private float initialTouchX;
+            private float initialTouchY;
+
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        initialX = params.x;
+                        initialY = params.y;
+                        initialTouchX = motionEvent.getRawX();
+                        initialTouchY = motionEvent.getRawY();
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        return true;
+                    case MotionEvent.ACTION_MOVE:
+                        params.x = initialX + (int) (motionEvent.getRawX() - initialTouchX);
+                        params.y = initialY + (int) (motionEvent.getRawY() - initialTouchY);
+                        windowManager.updateViewLayout(chatHead, params);
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
